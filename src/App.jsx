@@ -1,4 +1,5 @@
 import './App.css';
+import AgentList from './components/AgentList';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
         <div>
           <h1 className="blinking-title">RVASDUG Meetup</h1>
         </div>
+        <AgentList />
       </section>
 
       <div className="ticks"></div>
