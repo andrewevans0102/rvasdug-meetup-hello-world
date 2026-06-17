@@ -1,0 +1,141 @@
+{
+  "runId": "76ab12f2-2c0e-4599-a7b7-f259e9200e6c",
+  "startedAt": 1781739448897,
+  "updatedAt": 1781740217257,
+  "specSource": "linear",
+  "specTitle": "Agent Icon Focus with Description Panel",
+  "runOptions": {
+    "autoApprove": true,
+    "skipClarification": true,
+    "maxRetries": "2",
+    "securityThreshold": "HIGH",
+    "insecure": false,
+    "verbose": false
+  },
+  "completedStages": [
+    "plan",
+    "implement",
+    "gate-unit-tests",
+    "gate-functional-tests",
+    "security-review"
+  ],
+  "context": {
+    "spec": {
+      "source": "linear",
+      "issueId": "DT-350",
+      "title": "Agent Icon Focus with Description Panel",
+      "content": "# Agent Icon Focus with Description Panel\n\n## Overview\n\nThis feature enhances the accessibility and discoverability of agent information by implementing keyboard-navigable agent icons that display detailed descriptions in an expandable panel when focused. When a user navigates to an agent icon using keyboard tab navigation, an expandable panel will appear below the icon showing the agent's description. The descriptions will be sourced from the Reygent agents documentation file at [docs/agents.md](<https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md>) in the [https://github.com/andrewevans0102/reygent](<https://github.com/andrewevans0102/reygent>) repository.\n\nThe agent descriptions are defined in this specific file: [https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md](<https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md>). As of this writing, the documented agents and descriptions are:\n\n* **Dev Agent** — Writes, edits, and refactors implementation code including unit tests, following project conventions while avoiding functional test files.\n* **QE Agent** — Creates functional and integration tests based on specifications, maintaining read-only access to implementation source files.\n* **Planner Agent** — Validates and normalizes specifications into structured breakdowns with goals, tasks, constraints, and definitions of done.\n* **Security Reviewer Agent** — Conducts read-only security scans for OWASP Top 10 vulnerabilities without modifying files.\n* **PR Reviewer Agent** — Reviews pull request diffs and produces structured findings including comments and recommended actions.\n* **Adhoc Agent** — Handles freeform one-off tasks outside the standard workflow with full tool access for exploratory work.\n\n## Requirements\n\n* Modify agent icon components to be keyboard-focusable (ensure proper `tabindex` or semantic HTML elements)\n* Implement focus event handlers on agent icons to detect when keyboard navigation lands on an icon\n* Create an expandable description panel component that appears below the focused agent icon\n* Extract agent descriptions from the [docs/agents.md](<https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md>) file in the Reygent GitHub repository\n* Map extracted descriptions to their corresponding agent icons in the application\n* Ensure the description panel collapses when focus moves away from the agent icon\n* Support standard keyboard navigation patterns (Tab to move forward, Shift+Tab to move backward)\n* Ensure visual indication when an agent icon has keyboard focus (focus ring or equivalent)\n* Position the expandable panel directly below the focused icon without disrupting the layout of other icons\n* Handle edge cases where the panel may extend beyond viewport boundaries (scroll or reposition as needed)\n\n## Acceptance Criteria\n\n* All agent icons are keyboard-accessible via Tab key navigation\n* When an agent icon receives keyboard focus, an expandable panel appears below it displaying the agent's description\n* The description panel does not appear on mouse hover, only on keyboard focus\n* The description text matches the content from the Reygent `docs/agents.md` file\n* When focus leaves an agent icon (Tab or Shift+Tab to another element), the description panel collapses or is hidden\n* The focus indicator (outline/ring) is clearly visible on the focused agent icon\n* The expandable panel does not cause layout shift or overlap other interactive elements in a way that breaks functionality\n* All agents listed in the interface have corresponding descriptions populated from `docs/agents.md`\n* Navigation order is logical and follows the visual order of agent icons\n* The feature works across modern browsers (Chrome, Firefox, Safari, Edge)\n\n## Constraints\n\n* Descriptions must be fetched from the [docs/agents.md](<https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md>) file in the Reygent repository\n* The implementation must use keyboard tab/focus navigation exclusively (no mouse hover behavior for description display)\n* The expandable panel must render below the icon to maintain a consistent spatial relationship\n* Changes must not break existing agent selection or interaction workflows\n* The solution should be implemented in the existing component architecture of the Hello World application\n* Accessibility standards (WCAG 2.1 AA minimum) must be maintained, including proper ARIA attributes if custom components are used\n* The feature must not introduce performance degradation when navigating through multiple agent icons",
+      "labels": []
+    },
+    "results": [
+      {
+        "stage": "plan",
+        "success": true,
+        "output": "{\"goals\":[\"Enable keyboard navigation for agent icons to improve accessibility\",\"Display agent descriptions from Reygent documentation in expandable panels on focus\",\"Maintain WCAG 2.1 AA accessibility standards\",\"Integrate agent documentation data from external GitHub repository\"],\"tasks\":[\"Make agent icon components keyboard-focusable with proper tabindex or semantic HTML\",\"Implement focus and blur event handlers on agent icons\",\"Create expandable description panel component with positioning logic\",\"Implement data fetching mechanism to retrieve agent descriptions from docs/agents.md in Reygent repository\",\"Parse and map agent descriptions from markdown to application data structure\",\"Wire up description data to corresponding agent icons\",\"Implement panel show/hide logic based on keyboard focus state\",\"Add visible focus indicators (focus ring) to agent icons\",\"Position description panel below focused icon without layout disruption\",\"Handle viewport edge cases (scrolling, repositioning)\",\"Add ARIA attributes for screen reader compatibility\",\"Test keyboard navigation flow (Tab, Shift+Tab)\",\"Cross-browser testing (Chrome, Firefox, Safari, Edge)\"],\"constraints\":[\"Agent descriptions must be sourced from https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md\",\"Description panel triggers only on keyboard focus, not mouse hover\",\"Panel must render directly below the focused icon\",\"Must not break existing agent selection or interaction workflows\",\"Must use existing component architecture of the Hello World application\",\"Must maintain WCAG 2.1 AA accessibility compliance with proper ARIA attributes\",\"Must not introduce performance degradation during navigation\",\"Must support modern browsers (Chrome, Firefox, Safari, Edge)\",\"Assumption: Agent descriptions will be fetched at build time or cached at runtime to avoid repeated API calls\",\"Assumption: Fallback behavior needed if GitHub source is unavailable\",\"Assumption: Panel animations should be smooth but brief to maintain responsiveness\",\"Assumption: Focus indicator styling should follow existing design system patterns\"],\"dod\":[\"All agent icons are keyboard-accessible via Tab key navigation\",\"Description panel appears below agent icon on keyboard focus\",\"Description panel does not appear on mouse hover\",\"Description text matches content from Reygent docs/agents.md file\",\"Description panel collapses when focus leaves the agent icon\",\"Focus indicator is clearly visible on focused agent icon\",\"Panel does not cause layout shift or break functionality of other elements\",\"All six agents (Dev, QE, Planner, Security Reviewer, PR Reviewer, Adhoc) have populated descriptions\",\"Navigation order follows logical visual order of agent icons\",\"Feature works in Chrome, Firefox, Safari, and Edge browsers\",\"WCAG 2.1 AA accessibility standards are maintained\",\"No performance degradation when navigating through multiple icons\"]}"
+      },
+      {
+        "stage": "implement",
+        "success": true,
+        "output": "{\"dev\":{\"files\":[\"src/components/AgentItem.jsx\",\"src/components/AgentItem.css\",\"src/components/AgentItem.test.jsx\"]},\"qe\":{\"testFiles\":[\"tests/AgentKeyboardNavigation.test.jsx\",\"tests/AgentDescriptionPanel.test.jsx\",\"tests/AgentAccessibility.test.jsx\",\"tests/integration/AgentKeyboardFocus.integration.test.jsx\",\"tests/AgentKeyboardEdgeCases.test.jsx\"]}}"
+      },
+      {
+        "stage": "gate-unit-tests",
+        "success": true,
+        "output": "All unit tests passed successfully. The test suite ran 344 tests across 15 test files with no failures.\n\nGATE_RESULT:PASS"
+      },
+      {
+        "stage": "gate-functional-tests",
+        "success": true,
+        "output": "All functional tests have completed successfully. The test runner executed 15 test files with 344 total tests, all passing.\n\n**GATE_RESULT:PASS**"
+      },
+      {
+        "stage": "security-review",
+        "success": true,
+        "output": "{\"severity\":\"LOW\",\"findings\":[]}"
+      }
+    ],
+    "plan": {
+      "goals": [
+        "Enable keyboard navigation for agent icons to improve accessibility",
+        "Display agent descriptions from Reygent documentation in expandable panels on focus",
+        "Maintain WCAG 2.1 AA accessibility standards",
+        "Integrate agent documentation data from external GitHub repository"
+      ],
+      "tasks": [
+        "Make agent icon components keyboard-focusable with proper tabindex or semantic HTML",
+        "Implement focus and blur event handlers on agent icons",
+        "Create expandable description panel component with positioning logic",
+        "Implement data fetching mechanism to retrieve agent descriptions from docs/agents.md in Reygent repository",
+        "Parse and map agent descriptions from markdown to application data structure",
+        "Wire up description data to corresponding agent icons",
+        "Implement panel show/hide logic based on keyboard focus state",
+        "Add visible focus indicators (focus ring) to agent icons",
+        "Position description panel below focused icon without layout disruption",
+        "Handle viewport edge cases (scrolling, repositioning)",
+        "Add ARIA attributes for screen reader compatibility",
+        "Test keyboard navigation flow (Tab, Shift+Tab)",
+        "Cross-browser testing (Chrome, Firefox, Safari, Edge)"
+      ],
+      "constraints": [
+        "Agent descriptions must be sourced from https://github.com/andrewevans0102/reygent/blob/develop/docs/agents.md",
+        "Description panel triggers only on keyboard focus, not mouse hover",
+        "Panel must render directly below the focused icon",
+        "Must not break existing agent selection or interaction workflows",
+        "Must use existing component architecture of the Hello World application",
+        "Must maintain WCAG 2.1 AA accessibility compliance with proper ARIA attributes",
+        "Must not introduce performance degradation during navigation",
+        "Must support modern browsers (Chrome, Firefox, Safari, Edge)",
+        "Assumption: Agent descriptions will be fetched at build time or cached at runtime to avoid repeated API calls",
+        "Assumption: Fallback behavior needed if GitHub source is unavailable",
+        "Assumption: Panel animations should be smooth but brief to maintain responsiveness",
+        "Assumption: Focus indicator styling should follow existing design system patterns"
+      ],
+      "dod": [
+        "All agent icons are keyboard-accessible via Tab key navigation",
+        "Description panel appears below agent icon on keyboard focus",
+        "Description panel does not appear on mouse hover",
+        "Description text matches content from Reygent docs/agents.md file",
+        "Description panel collapses when focus leaves the agent icon",
+        "Focus indicator is clearly visible on focused agent icon",
+        "Panel does not cause layout shift or break functionality of other elements",
+        "All six agents (Dev, QE, Planner, Security Reviewer, PR Reviewer, Adhoc) have populated descriptions",
+        "Navigation order follows logical visual order of agent icons",
+        "Feature works in Chrome, Firefox, Safari, and Edge browsers",
+        "WCAG 2.1 AA accessibility standards are maintained",
+        "No performance degradation when navigating through multiple icons"
+      ]
+    },
+    "implement": {
+      "dev": {
+        "files": [
+          "src/components/AgentItem.jsx",
+          "src/components/AgentItem.css",
+          "src/components/AgentItem.test.jsx"
+        ]
+      },
+      "qe": {
+        "testFiles": [
+          "tests/AgentKeyboardNavigation.test.jsx",
+          "tests/AgentDescriptionPanel.test.jsx",
+          "tests/AgentAccessibility.test.jsx",
+          "tests/integration/AgentKeyboardFocus.integration.test.jsx",
+          "tests/AgentKeyboardEdgeCases.test.jsx"
+        ]
+      }
+    },
+    "gates": {
+      "unitTests": {
+        "passed": true,
+        "output": "All unit tests passed successfully. The test suite ran 344 tests across 15 test files with no failures.\n\nGATE_RESULT:PASS"
+      },
+      "functionalTests": {
+        "passed": true,
+        "output": "All functional tests have completed successfully. The test runner executed 15 test files with 344 total tests, all passing.\n\n**GATE_RESULT:PASS**"
+      }
+    },
+    "securityReview": {
+      "severity": "LOW",
+      "findings": []
+    }
+  }
+}
