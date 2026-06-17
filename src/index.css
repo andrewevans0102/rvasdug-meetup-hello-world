@@ -1,57 +1,72 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Retro arcade color scheme */
+  --text: #00ffff;
+  --text-h: #ffff00;
+  --bg: #0a0a1a;
+  --border: #ff00ff;
+  --code-bg: #1a1a2e;
+  --accent: #00ff00;
+  --accent-bg: rgba(0, 255, 0, 0.1);
+  --accent-border: rgba(0, 255, 0, 0.5);
+  --social-bg: rgba(26, 26, 46, 0.8);
+  --shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3);
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Retro pixel fonts */
+  --sans: 'Press Start 2P', 'VT323', monospace;
+  --heading: 'Press Start 2P', 'VT323', monospace;
+  --mono: 'Press Start 2P', 'VT323', monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  font-size: 12px;
+  line-height: 150%;
+  letter-spacing: 0.5px;
+  color-scheme: dark;
+  color: #00ffff;
+  background: #0a0a1a;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: auto;
+}
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@media (max-width: 1024px) {
+  :root {
+    font-size: 10px;
   }
 }
 
+@media (max-width: 768px) {
+  :root {
+    font-size: 8px;
+  }
+}
+
+/* Retro arcade theme - no light mode variation */
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+    /* Keep the same retro arcade colors */
   }
 }
 
 body {
   margin: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Optional CRT scanline overlay effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.1;
 }
 
 #root {
@@ -59,53 +74,85 @@ body {
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
+  border-inline: 2px solid #ff00ff;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
 }
 
 h1,
 h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+  font-family: 'Press Start 2P', 'VT323', monospace;
+  font-weight: 400;
+  color: #ffff00;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
+  font-size: 32px;
+  letter-spacing: 2px;
   margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
+  line-height: 150%;
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 20px;
     margin: 20px 0;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 16px;
+    margin: 16px 0;
   }
 }
+
+h2 {
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 1px;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 1024px) {
+  h2 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 12px;
+  }
+}
+
 p {
   margin: 0;
+  line-height: 180%;
 }
 
 code,
 .counter {
-  font-family: var(--mono);
+  font-family: 'Press Start 2P', 'VT323', monospace;
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  border-radius: 0;
+  color: #ffff00;
 }
 
 code {
-  font-size: 15px;
-  line-height: 135%;
+  font-size: 12px;
+  line-height: 150%;
   padding: 4px 8px;
-  background: var(--code-bg);
+  background: #1a1a2e;
+  border: 1px solid #00ff00;
+}
+
+@media (max-width: 768px) {
+  code {
+    font-size: 10px;
+  }
 }
