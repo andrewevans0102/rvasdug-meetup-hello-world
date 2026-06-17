@@ -1,5 +1,6 @@
 .agent-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
@@ -8,11 +9,28 @@
   margin-bottom: 12px;
   transition: all 0.3s;
   box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  position: relative;
 }
 
 .agent-item:hover {
   border-color: #ffff00;
   box-shadow: 0 0 15px rgba(255, 255, 0, 0.5), 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.agent-item:focus {
+  outline: none;
+  border-color: #ff00ff;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.agent-item:focus .agent-icon {
+  color: #ff00ff;
+}
+
+.agent-item:focus .agent-name {
+  color: #ff00ff;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
 }
 
 .agent-icon {
@@ -49,6 +67,32 @@
   text-shadow: 0 0 8px rgba(255, 255, 0, 0.7);
 }
 
+.agent-description-panel {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #ff00ff;
+  border-radius: 4px;
+  color: #00ffff;
+  font-size: 11px;
+  line-height: 150%;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.6), inset 0 0 10px rgba(255, 0, 255, 0.2);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 1024px) {
   .agent-item {
     padding: 12px 16px;
@@ -62,6 +106,12 @@
   }
 
   .agent-name {
+    font-size: 10px;
+  }
+
+  .agent-description-panel {
+    margin-top: 10px;
+    padding: 10px 12px;
     font-size: 10px;
   }
 }
@@ -80,5 +130,11 @@
 
   .agent-name {
     font-size: 8px;
+  }
+
+  .agent-description-panel {
+    margin-top: 8px;
+    padding: 8px 10px;
+    font-size: 9px;
   }
 }
