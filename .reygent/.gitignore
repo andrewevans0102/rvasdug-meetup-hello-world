@@ -1,0 +1,18 @@
+# Telemetry database (local-only)
+chesstrace.db
+chesstrace.db-journal
+chesstrace.db-wal
+chesstrace.db-shm
+
+# Generated dashboard
+reygent-dashboard.html
+
+# Auto-generated knowledge files (generated from local telemetry)
+knowledge/common-failures.md
+knowledge/success-patterns.md
+
+# Keep these files in source control:
+# - config.json (shared agent config)
+# - skills/ (custom team skills)
+# - knowledge/project-conventions.md (user-written rules)
+# - knowledge/agents/*.md (curated agent tips)
