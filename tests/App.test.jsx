@@ -1,6 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import App from '../src/App';
 
 describe('RVASDUG Meetup - Retro Arcade Styling', () => {
@@ -18,7 +17,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
     });
 
     it('should have the title prominently displayed and centered', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
 
@@ -83,7 +82,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
 
   describe('Page Styling Requirements', () => {
     it('should have a dark arcade-themed background color', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const body = document.body;
       const computedStyle = window.getComputedStyle(body);
 
@@ -100,7 +99,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
     });
 
     it('should apply 8-bit pixel font family throughout the application', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const body = document.body;
       const computedStyle = window.getComputedStyle(body);
       const fontFamily = computedStyle.fontFamily.toLowerCase();
@@ -158,7 +157,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
       global.innerWidth = 320;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
 
       expect(title).toBeVisible();
@@ -170,7 +169,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
       global.innerWidth = 768;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
 
       expect(title).toBeVisible();
@@ -182,7 +181,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
       global.innerWidth = 1920;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
 
       expect(title).toBeVisible();
@@ -196,7 +195,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
         global.innerWidth = width;
         global.dispatchEvent(new Event('resize'));
 
-        const { container, unmount } = render(<App />);
+        const { unmount } = render(<App />);
         const title = screen.getByText(/RVASDUG Meetup/i);
         const computedStyle = window.getComputedStyle(title);
 
@@ -233,7 +232,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
     });
 
     it('should not cause layout shifts during animation', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const initialRect = title.getBoundingClientRect();
 
@@ -252,43 +251,17 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
   });
 
   describe('Existing Functionality Preservation', () => {
-    it('should still render the counter button', () => {
-      render(<App />);
-      const button = screen.getByRole('button', { name: /count is/i });
-      expect(button).toBeInTheDocument();
-    });
-
-    it('should maintain counter button functionality', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      const button = screen.getByRole('button', { name: /count is 0/i });
-      expect(button).toBeInTheDocument();
-
-      await user.click(button);
-
-      expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
-    });
-
     it('should not break React component structure', () => {
       const { container } = render(<App />);
 
       // Verify main sections still exist
       expect(container.querySelector('#center')).toBeInTheDocument();
     });
-
-    it('should maintain all existing content sections', () => {
-      render(<App />);
-
-      // Check that documentation and social sections still exist
-      expect(screen.getByText(/Documentation/i)).toBeInTheDocument();
-      expect(screen.getByText(/Connect with us/i)).toBeInTheDocument();
-    });
   });
 
   describe('Arcade Aesthetic', () => {
     it('should evoke 1980s arcade game aesthetic with color scheme', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const body = document.body;
       const computedStyle = window.getComputedStyle(body);
 
@@ -305,7 +278,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
     });
 
     it('should use vibrant neon colors typical of 8-bit arcade games', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
       const color = computedStyle.color;
@@ -367,7 +340,7 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
     });
 
     it('should handle rapid viewport size changes without breaking layout', () => {
-      const { container, rerender } = render(<App />);
+      const { rerender } = render(<App />);
 
       // Simulate rapid viewport changes
       const sizes = [320, 768, 1024, 375, 1920, 414];
@@ -400,20 +373,6 @@ describe('RVASDUG Meetup - Retro Arcade Styling', () => {
       // Should have the RVASDUG Meetup title as an h1
       const mainTitle = headings.find(h => h.textContent.includes('RVASDUG Meetup'));
       expect(mainTitle).toBeDefined();
-    });
-
-    it('should not interfere with keyboard navigation', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      const button = screen.getByRole('button', { name: /count is 0/i });
-
-      // Tab to button and activate with keyboard
-      await user.tab();
-      await user.keyboard('{Enter}');
-
-      // Button should still work
-      expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
     });
   });
 

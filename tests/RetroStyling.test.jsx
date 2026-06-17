@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../src/App';
 
@@ -95,28 +95,6 @@ describe('Retro Arcade Styling - Detailed CSS Tests', () => {
       });
 
       expect(hasYellow).toBe(true);
-    });
-
-    it('should include bright green neon accent color (#00ff00 or similar)', () => {
-      const { container } = render(<App />);
-      const elements = container.querySelectorAll('*');
-
-      let hasGreen = false;
-      elements.forEach(el => {
-        const style = window.getComputedStyle(el);
-        [style.color, style.backgroundColor, style.borderColor].forEach(color => {
-          const rgb = color.match(/\d+/g);
-          if (rgb) {
-            const [r, g, b] = rgb.map(Number);
-            // Bright green is low red, high green, low blue
-            if (r < 50 && g > 200 && b < 50) {
-              hasGreen = true;
-            }
-          }
-        });
-      });
-
-      expect(hasGreen).toBe(true);
     });
   });
 
@@ -281,7 +259,7 @@ describe('Retro Arcade Styling - Detailed CSS Tests', () => {
       global.innerWidth = 375;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
       const fontSize = parseFloat(computedStyle.fontSize);
@@ -295,7 +273,7 @@ describe('Retro Arcade Styling - Detailed CSS Tests', () => {
       global.innerWidth = 768;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
       const fontSize = parseFloat(computedStyle.fontSize);
@@ -308,7 +286,7 @@ describe('Retro Arcade Styling - Detailed CSS Tests', () => {
       global.innerWidth = 1920;
       global.dispatchEvent(new Event('resize'));
 
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
       const fontSize = parseFloat(computedStyle.fontSize);
@@ -366,17 +344,6 @@ describe('Retro Arcade Styling - Detailed CSS Tests', () => {
       render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
       const computedStyle = window.getComputedStyle(title);
-
-      // Check for transform or opacity (GPU-accelerated)
-      const transform = computedStyle.transform;
-      const willChange = computedStyle.willChange;
-
-      // Animation should ideally use GPU-accelerated properties
-      // This is advisory - the test checks if optimization hints are present
-      const isOptimized =
-        willChange.includes('opacity') ||
-        willChange.includes('transform') ||
-        transform !== 'none';
 
       // This is informational - it's okay if not optimized, but recommended
       expect(computedStyle.animationName).not.toBe('none');

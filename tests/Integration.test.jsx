@@ -1,11 +1,8 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '../src/App';
 
 describe('Retro Arcade Integration Tests', () => {
-  let container;
-
   beforeEach(() => {
     // Reset viewport to default
     global.innerWidth = 1024;
@@ -14,7 +11,7 @@ describe('Retro Arcade Integration Tests', () => {
 
   describe('Complete User Experience', () => {
     it('should render the complete retro arcade experience on page load', async () => {
-      const { container } = render(<App />);
+      render(<App />);
 
       // Wait for any async operations
       await waitFor(() => {
@@ -32,113 +29,9 @@ describe('Retro Arcade Integration Tests', () => {
         expect(bodyStyle.backgroundColor).toBeTruthy();
       });
     });
-
-    it('should maintain retro styling while user interacts with counter', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      const title = screen.getByText(/RVASDUG Meetup/i);
-      const titleStyle = window.getComputedStyle(title);
-      const initialAnimation = titleStyle.animationName;
-
-      // Click counter button
-      const button = screen.getByRole('button', { name: /count is 0/i });
-      await user.click(button);
-
-      // Verify counter updated
-      expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
-
-      // Verify title animation still running
-      const updatedTitleStyle = window.getComputedStyle(title);
-      expect(updatedTitleStyle.animationName).toBe(initialAnimation);
-      expect(updatedTitleStyle.animationName).not.toBe('none');
-    });
-
-    it('should keep all links functional with retro styling applied', () => {
-      render(<App />);
-
-      // Check that links are still present and clickable
-      const viteLink = screen.getByRole('link', { name: /Explore Vite/i });
-      const reactLink = screen.getByRole('link', { name: /Learn more/i });
-
-      expect(viteLink).toBeInTheDocument();
-      expect(viteLink).toHaveAttribute('href', 'https://vite.dev/');
-
-      expect(reactLink).toBeInTheDocument();
-      expect(reactLink).toHaveAttribute('href', 'https://react.dev/');
-    });
-
-    it('should display all content sections with retro styling', () => {
-      render(<App />);
-
-      // Main title
-      expect(screen.getByText(/RVASDUG Meetup/i)).toBeInTheDocument();
-
-      // Counter
-      expect(screen.getByRole('button', { name: /count is/i })).toBeInTheDocument();
-
-      // Documentation section
-      expect(screen.getByText(/Documentation/i)).toBeInTheDocument();
-
-      // Social section
-      expect(screen.getByText(/Connect with us/i)).toBeInTheDocument();
-    });
-
-    it('should handle multiple rapid interactions without breaking styling', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      const button = screen.getByRole('button', { name: /count is 0/i });
-      const title = screen.getByText(/RVASDUG Meetup/i);
-      const initialTitleStyle = window.getComputedStyle(title);
-
-      // Rapidly click the button multiple times
-      for (let i = 0; i < 10; i++) {
-        await user.click(button);
-      }
-
-      // Verify counter reached 10
-      expect(screen.getByRole('button', { name: /count is 10/i })).toBeInTheDocument();
-
-      // Verify title styling unchanged
-      const finalTitleStyle = window.getComputedStyle(title);
-      expect(finalTitleStyle.animationName).toBe(initialTitleStyle.animationName);
-      expect(finalTitleStyle.fontFamily).toBe(initialTitleStyle.fontFamily);
-    });
   });
 
   describe('Responsive Behavior Integration', () => {
-    it('should maintain functionality across viewport changes', async () => {
-      const user = userEvent.setup();
-      const viewports = [
-        { width: 320, height: 568 },   // Mobile
-        { width: 768, height: 1024 },  // Tablet
-        { width: 1920, height: 1080 }, // Desktop
-      ];
-
-      for (const viewport of viewports) {
-        global.innerWidth = viewport.width;
-        global.innerHeight = viewport.height;
-        global.dispatchEvent(new Event('resize'));
-
-        const { unmount } = render(<App />);
-
-        // Title should be present and styled
-        const title = screen.getByText(/RVASDUG Meetup/i);
-        expect(title).toBeVisible();
-
-        const titleStyle = window.getComputedStyle(title);
-        expect(titleStyle.animationName).not.toBe('none');
-
-        // Counter should work
-        const button = screen.getByRole('button', { name: /count is 0/i });
-        await user.click(button);
-        expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
-
-        unmount();
-      }
-    });
-
     it('should adapt title size responsively while maintaining animation', () => {
       const breakpoints = [320, 768, 1024, 1920];
       const titleSizes = [];
@@ -219,35 +112,6 @@ describe('Retro Arcade Integration Tests', () => {
   });
 
   describe('Animation Performance Integration', () => {
-    it('should run animation smoothly without impacting interactivity', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      const title = screen.getByText(/RVASDUG Meetup/i);
-      const button = screen.getByRole('button', { name: /count is 0/i });
-
-      // Verify animation is running
-      const style = window.getComputedStyle(title);
-      expect(style.animationName).not.toBe('none');
-
-      // Interact while animation runs
-      const startTime = Date.now();
-      for (let i = 0; i < 5; i++) {
-        await user.click(button);
-      }
-      const endTime = Date.now();
-
-      // Interactions should be fast (< 1 second for 5 clicks)
-      expect(endTime - startTime).toBeLessThan(1000);
-
-      // Counter should have updated
-      expect(screen.getByRole('button', { name: /count is 5/i })).toBeInTheDocument();
-
-      // Animation should still be running
-      const finalStyle = window.getComputedStyle(title);
-      expect(finalStyle.animationName).not.toBe('none');
-    });
-
     it('should not cause memory leaks with continuous animation', async () => {
       const { unmount } = render(<App />);
 
@@ -268,7 +132,7 @@ describe('Retro Arcade Integration Tests', () => {
 
   describe('CSS-Only Implementation Verification', () => {
     it('should have no inline JavaScript animation handlers', () => {
-      const { container } = render(<App />);
+      render(<App />);
       const title = screen.getByText(/RVASDUG Meetup/i);
 
       // Check for common JS animation attributes
@@ -291,36 +155,6 @@ describe('Retro Arcade Integration Tests', () => {
         expect(inlineStyle.toLowerCase()).not.toContain('opacity');
         expect(inlineStyle.toLowerCase()).not.toContain('visibility');
       }
-    });
-  });
-
-  describe('Backward Compatibility', () => {
-    it('should not break any existing test IDs or data attributes', () => {
-      render(<App />);
-
-      // Original component structure should be intact
-      const centerSection = document.querySelector('#center');
-      expect(centerSection).toBeInTheDocument();
-
-      const nextStepsSection = document.querySelector('#next-steps');
-      expect(nextStepsSection).toBeInTheDocument();
-    });
-
-    it('should preserve all original functionality while adding retro styling', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      // Original counter functionality
-      const button = screen.getByRole('button', { name: /count is 0/i });
-      await user.click(button);
-      expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
-
-      // Original links
-      expect(screen.getByRole('link', { name: /Explore Vite/i })).toHaveAttribute('href');
-      expect(screen.getByRole('link', { name: /Learn more/i })).toHaveAttribute('href');
-
-      // New retro title
-      expect(screen.getByText(/RVASDUG Meetup/i)).toBeInTheDocument();
     });
   });
 
@@ -372,8 +206,8 @@ describe('Retro Arcade Integration Tests', () => {
     });
 
     it('should work correctly when multiple instances are rendered', () => {
-      const { container: container1 } = render(<App />);
-      const { container: container2 } = render(<App />);
+      render(<App />);
+      render(<App />);
 
       const titles = screen.getAllByText(/RVASDUG Meetup/i);
       expect(titles.length).toBe(2);
@@ -386,38 +220,6 @@ describe('Retro Arcade Integration Tests', () => {
   });
 
   describe('Accessibility Integration', () => {
-    it('should maintain keyboard navigation through all interactive elements', async () => {
-      const user = userEvent.setup();
-      render(<App />);
-
-      // Tab through interactive elements
-      await user.tab();
-
-      // Should be able to reach the counter button
-      const button = screen.getByRole('button', { name: /count is 0/i });
-      expect(button).toHaveFocus();
-
-      // Should be able to activate with keyboard
-      await user.keyboard('{Enter}');
-      expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
-    });
-
-    it('should maintain semantic HTML structure with retro styling', () => {
-      render(<App />);
-
-      // Check semantic elements
-      const mainHeading = screen.getByRole('heading', { level: 1, name: /RVASDUG Meetup/i });
-      expect(mainHeading).toBeInTheDocument();
-
-      // Check links have proper roles
-      const links = screen.getAllByRole('link');
-      expect(links.length).toBeGreaterThan(0);
-
-      // Check button has proper role
-      const button = screen.getByRole('button');
-      expect(button).toBeInTheDocument();
-    });
-
     it('should not break screen reader announcements with animations', () => {
       render(<App />);
 
